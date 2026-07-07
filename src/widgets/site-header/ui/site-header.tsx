@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { assetPath } from "@/src/shared/config/assets";
@@ -19,6 +18,12 @@ function isNavItemActive(currentPath: string, itemHref: string) {
   const normalizedHref = normalizePath(itemHref);
 
   return currentPath === normalizedHref || currentPath.startsWith(`${normalizedHref}/`);
+}
+
+function pageHref(href: string) {
+  const normalizedHref = href.endsWith("/") ? href : `${href}/`;
+
+  return assetPath(normalizedHref);
 }
 
 export function SiteHeader() {
@@ -58,9 +63,9 @@ export function SiteHeader() {
 
       <Nav aria-label="Основная навигация">
         {navigationItems.map((item) => (
-          <Link data-active={isNavItemActive(currentPath, item.href)} href={item.href} key={item.href} prefetch>
+          <a data-active={isNavItemActive(currentPath, item.href)} href={pageHref(item.href)} key={item.href}>
             {item.label}
-          </Link>
+          </a>
         ))}
       </Nav>
 
@@ -69,15 +74,14 @@ export function SiteHeader() {
           Главная
         </a>
         {navigationItems.map((item) => (
-          <Link
+          <a
             data-active={isNavItemActive(currentPath, item.href)}
-            href={item.href}
+            href={pageHref(item.href)}
             key={item.href}
             onClick={() => setIsMenuOpen(false)}
-            prefetch
           >
             {item.label}
-          </Link>
+          </a>
         ))}
       </MobileMenu>
     </Header>

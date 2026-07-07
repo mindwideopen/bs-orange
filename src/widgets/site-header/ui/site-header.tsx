@@ -15,16 +15,22 @@ function normalizePath(path: string) {
   return withoutTrailingSlash || "/";
 }
 
+function isNavItemActive(currentPath: string, itemHref: string) {
+  const normalizedHref = normalizePath(itemHref);
+
+  return currentPath === normalizedHref || currentPath.startsWith(`${normalizedHref}/`);
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   const currentPath = normalizePath(pathname);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const mobileNavigationItems = [{ href: "/", label: "Главная" }, ...navigationItems];
+  const homeHref = assetPath("/");
 
   return (
     <Header>
       <HeaderInner>
-        <Brand href="/" aria-label="Балтик Стайл">
+        <Brand href={homeHref} aria-label="Балтик Стайл">
           <Image src={assetPath("/figma/logo.svg")} alt="" width={62} height={75} priority />
           <span>
             <strong>Балтик Стайл</strong>
@@ -52,19 +58,23 @@ export function SiteHeader() {
 
       <Nav aria-label="Основная навигация">
         {navigationItems.map((item) => (
-          <Link data-active={currentPath === normalizePath(item.href)} href={item.href} key={item.href}>
+          <Link data-active={isNavItemActive(currentPath, item.href)} href={item.href} key={item.href} prefetch>
             {item.label}
           </Link>
         ))}
       </Nav>
 
       <MobileMenu id="mobile-navigation" aria-label="Мобильная навигация" $isOpen={isMenuOpen}>
-        {mobileNavigationItems.map((item) => (
+        <a data-active={currentPath === "/"} href={homeHref} onClick={() => setIsMenuOpen(false)}>
+          Главная
+        </a>
+        {navigationItems.map((item) => (
           <Link
-            data-active={currentPath === normalizePath(item.href)}
+            data-active={isNavItemActive(currentPath, item.href)}
             href={item.href}
             key={item.href}
             onClick={() => setIsMenuOpen(false)}
+            prefetch
           >
             {item.label}
           </Link>

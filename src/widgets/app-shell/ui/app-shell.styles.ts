@@ -8,6 +8,7 @@ export const Page = styled.main`
   --field: #e9e9e9;
   width: min(100%, 1280px);
   margin: 0 auto;
+  overflow-x: clip;
   background: #ffffff;
   color: #000000;
 `;

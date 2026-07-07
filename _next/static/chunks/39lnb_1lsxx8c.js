@@ -228,7 +228,6 @@ Read more: https://nextjs.org/docs/messages/next-image-unconfigured-localpattern
   --field: #e9e9e9;
   width: min(100%, 1280px);
   margin: 0 auto;
-  overflow-x: clip;
   background: #ffffff;
   color: #000000;
 `;e.s(["AppShell",0,function({children:e}){return(0,t.jsxs)(w,{children:[(0,t.jsx)(_,{}),e,(0,t.jsx)(a,{})]})}],58483)}]);

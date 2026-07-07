@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import type { MouseEvent } from "react";
 import { useState } from "react";
 import { assetPath } from "@/src/shared/config/assets";
 import { navigationItems } from "../model/navigation";
@@ -31,6 +32,11 @@ export function SiteHeader() {
   const currentPath = normalizePath(pathname);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const homeHref = assetPath("/");
+
+  function handleNavClick(event: MouseEvent<HTMLAnchorElement>, href: string) {
+    event.preventDefault();
+    window.location.assign(pageHref(href));
+  }
 
   return (
     <Header>
@@ -63,7 +69,12 @@ export function SiteHeader() {
 
       <Nav aria-label="Основная навигация">
         {navigationItems.map((item) => (
-          <a data-active={isNavItemActive(currentPath, item.href)} href={pageHref(item.href)} key={item.href}>
+          <a
+            data-active={isNavItemActive(currentPath, item.href)}
+            href={pageHref(item.href)}
+            key={item.href}
+            onClick={(event) => handleNavClick(event, item.href)}
+          >
             {item.label}
           </a>
         ))}
@@ -78,7 +89,10 @@ export function SiteHeader() {
             data-active={isNavItemActive(currentPath, item.href)}
             href={pageHref(item.href)}
             key={item.href}
-            onClick={() => setIsMenuOpen(false)}
+            onClick={(event) => {
+              setIsMenuOpen(false);
+              handleNavClick(event, item.href);
+            }}
           >
             {item.label}
           </a>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { SectionTitle } from "@/src/shared/ui/section-title";
 import { projectItems } from "../model/projects";
 import {
@@ -19,19 +19,31 @@ export function ProjectsShowcase() {
     scrollLeft: 0,
   });
   const [isDragging, setIsDragging] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
-  const scrollProjects = (direction: -1 | 1) => {
+  const scrollProjects = useCallback((direction: -1 | 1) => {
     const list = listRef.current;
 
     if (!list) {
       return;
     }
 
-    list.scrollBy({
-      left: direction * Math.min(list.clientWidth * 0.8, 560),
-      behavior: "smooth",
-    });
-  };
+    const distance = Math.min(list.clientWidth * 0.8, 560);
+    const maxScrollLeft = list.scrollWidth - list.clientWidth;
+    const nextScrollLeft = list.scrollLeft + direction * distance;
+
+    if (direction > 0 && nextScrollLeft >= maxScrollLeft - 4) {
+      list.scrollTo({ left: 0, behavior: "smooth" });
+      return;
+    }
+
+    if (direction < 0 && nextScrollLeft <= 4) {
+      list.scrollTo({ left: maxScrollLeft, behavior: "smooth" });
+      return;
+    }
+
+    list.scrollBy({ left: direction * distance, behavior: "smooth" });
+  }, []);
 
   const stopDragging = (pointerId?: number) => {
     const list = listRef.current;
@@ -44,10 +56,27 @@ export function ProjectsShowcase() {
     setIsDragging(false);
   };
 
+  useEffect(() => {
+    const shouldReduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (shouldReduceMotion || isDragging || isPaused) {
+      return;
+    }
+
+    const intervalId = window.setInterval(() => scrollProjects(1), 3200);
+
+    return () => window.clearInterval(intervalId);
+  }, [isDragging, isPaused, scrollProjects]);
+
   return (
     <ProjectsSection id="projects">
       <SectionTitle>Реализованные проекты</SectionTitle>
-      <ProjectSlider>
+      <ProjectSlider
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onFocus={() => setIsPaused(true)}
+        onBlur={() => setIsPaused(false)}
+      >
         <button aria-label="Предыдущие проекты" type="button" onClick={() => scrollProjects(-1)}>
           ‹
         </button>

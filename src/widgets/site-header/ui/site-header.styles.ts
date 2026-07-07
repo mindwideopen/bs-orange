@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 export const Header = styled.header`
+  position: relative;
+  z-index: 20;
   padding-top: 51px;
 
   @media (max-width: 900px) {
@@ -16,10 +18,12 @@ export const HeaderInner = styled.div`
   padding: 0 76px 0 75px;
 
   @media (max-width: 900px) {
-    flex-wrap: wrap;
-    gap: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
     min-height: auto;
-    padding-inline: 24px;
+    padding-inline: 24px 72px;
   }
 `;
 
@@ -27,6 +31,7 @@ export const Brand = styled.a`
   display: inline-flex;
   align-items: center;
   gap: 13px;
+  min-width: 0;
   color: inherit;
   text-decoration: none;
 
@@ -75,16 +80,59 @@ export const Phone = styled.a`
   }
 `;
 
-export const Nav = styled.nav`
+export const BurgerButton = styled.button`
+  display: none;
+  width: 36px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  span {
+    display: block;
+    width: 36px;
+    height: 3px;
+    border-radius: 999px;
+    background: #222222;
+    transition:
+      transform 180ms ease,
+      opacity 180ms ease;
+  }
+
+  &[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(12px) rotate(45deg);
+  }
+
+  &[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+
+  &[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-12px) rotate(-45deg);
+  }
+
+  @media (max-width: 900px) {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 30;
     display: flex;
-    justify-content: center;
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
-    background-color: rgb(246, 246, 246);
-    gap: 72px;
-    min-height: 75px;
-    padding: 27px 40px 24px;
-    font-size: 18px;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+`;
+
+export const Nav = styled.nav`
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  background-color: rgb(246, 246, 246);
+  gap: 72px;
+  min-height: 75px;
+  padding: 27px 40px 24px;
+  font-size: 18px;
 
   a {
     position: relative;
@@ -98,31 +146,64 @@ export const Nav = styled.nav`
   }
 
   a::after {
-        position: absolute;
-        right: 0;
-        bottom: -10px;
-        left: 0;
-        height: 2px;
-        background: var(--orange);
-        content: "";
-        opacity: 0;
-        transform: scaleX(0);
-        transform-origin: center;
-        transition: opacity 180ms ease,
-        transform 180ms ease;
+    position: absolute;
+    right: 0;
+    bottom: -10px;
+    left: 0;
+    height: 2px;
+    background: var(--orange);
+    content: "";
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease;
+  }
+
+  a:hover::after,
+  a:focus-visible::after {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  @media (max-width: 900px) {
+    display: none;
+  }
+`;
+
+export const MobileMenu = styled.nav<{ $isOpen: boolean }>`
+  display: none;
+
+  @media (max-width: 900px) {
+    display: grid;
+    width: 100vw;
+    max-height: ${({ $isOpen }) => ($isOpen ? "420px" : "0")};
+    margin-left: calc(50% - 50vw);
+    overflow: hidden;
+    background-color: rgb(246, 246, 246);
+    box-shadow: 0 18px 28px rgb(0 0 0 / 10%);
+    opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
+    pointer-events: ${({ $isOpen }) => ($isOpen ? "auto" : "none")};
+    transition:
+      max-height 220ms ease,
+      opacity 180ms ease;
+
+    a {
+      padding: 17px 24px;
+      border-top: 1px solid rgb(225, 225, 225);
+      color: inherit;
+      font-size: 18px;
+      text-decoration: none;
     }
 
-    a:hover::after,
-    a:focus-visible::after {
-        opacity: 1;
-        transform: scaleX(1);
+    a[data-active="true"] {
+      color: #ff8100;
     }
 
-    @media (max-width: 900px) {
-        justify-content: flex-start;
-        gap: 24px;
-        overflow-x: auto;
-        padding-inline: 24px;
-        white-space: nowrap;
+    a:hover,
+    a:focus-visible {
+      color: #ff8100;
     }
+  }
 `;

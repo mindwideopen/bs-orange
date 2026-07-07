@@ -3,9 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { assetPath } from "@/src/shared/config/assets";
 import { navigationItems } from "../model/navigation";
-import { Brand, Header, HeaderInner, Nav, Phone } from "./site-header.styles";
+import { Brand, BurgerButton, Header, HeaderInner, MobileMenu, Nav, Phone } from "./site-header.styles";
 
 function normalizePath(path: string) {
   const withoutBasePath = path.replace(/^\/bs-orange(?=\/|$)/, "");
@@ -17,6 +18,8 @@ function normalizePath(path: string) {
 export function SiteHeader() {
   const pathname = usePathname();
   const currentPath = normalizePath(pathname);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const mobileNavigationItems = [{ href: "/", label: "Главная" }, ...navigationItems];
 
   return (
     <Header>
@@ -33,6 +36,18 @@ export function SiteHeader() {
           <Image src={assetPath("/figma/phone.svg")} alt="" width={18} height={18} />
           +7(4012) 99-11-99
         </Phone>
+
+        <BurgerButton
+          type="button"
+          aria-label={isMenuOpen ? "Закрыть меню" : "Открыть меню"}
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-navigation"
+          onClick={() => setIsMenuOpen((value) => !value)}
+        >
+          <span />
+          <span />
+          <span />
+        </BurgerButton>
       </HeaderInner>
 
       <Nav aria-label="Основная навигация">
@@ -42,6 +57,19 @@ export function SiteHeader() {
           </Link>
         ))}
       </Nav>
+
+      <MobileMenu id="mobile-navigation" aria-label="Мобильная навигация" $isOpen={isMenuOpen}>
+        {mobileNavigationItems.map((item) => (
+          <Link
+            data-active={currentPath === normalizePath(item.href)}
+            href={item.href}
+            key={item.href}
+            onClick={() => setIsMenuOpen(false)}
+          >
+            {item.label}
+          </Link>
+        ))}
+      </MobileMenu>
     </Header>
   );
 }

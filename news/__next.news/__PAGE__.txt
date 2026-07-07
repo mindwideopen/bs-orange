@@ -2,5 +2,5 @@
 2:I[31621,["/bs-orange/_next/static/chunks/1u64imgk2yigu.js","/bs-orange/_next/static/chunks/3ialrnk38c072.js","/bs-orange/_next/static/chunks/3v3p2xvpykyst.js","/bs-orange/_next/static/chunks/082v89acqhhpl.js"],"NewsPage"]
 3:I[62655,["/bs-orange/_next/static/chunks/1u64imgk2yigu.js","/bs-orange/_next/static/chunks/3ialrnk38c072.js","/bs-orange/_next/static/chunks/3v3p2xvpykyst.js"],"OutletBoundary"]
 4:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","script","script-0",{"src":"/bs-orange/_next/static/chunks/082v89acqhhpl.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"6M89gkg3KXD1y8tqK6Sfc"}
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","script","script-0",{"src":"/bs-orange/_next/static/chunks/082v89acqhhpl.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"hL4cpUCPIz96PXZ9r1NVH"}
 5:null

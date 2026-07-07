@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+
+Host: https://mindwideopen.github.io/bs-orange
+Sitemap: https://mindwideopen.github.io/bs-orange/sitemap.xml

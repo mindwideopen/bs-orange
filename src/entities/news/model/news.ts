@@ -16,7 +16,7 @@ export const newsItems: NewsItem[] = [
     slug: "sostoyanie-modular-equipment",
     title: "«Балтик Стайл» оснастила ЖК «Состояние» в Ростове-на-Дону модульным оборудованием.",
     date: "16 апреля 2026",
-    image: "news-state-equipment.png",
+    image: "news-state-equipment.webp",
     summary:
       "Российская компания «Систэм Электрик» поставила модульное оборудование и электроустановочные изделия для оснащения жилого комплекса «Состояние».",
     links: [
@@ -42,7 +42,7 @@ export const newsItems: NewsItem[] = [
     slug: "systeme-electric-equipment",
     title: "Systeme Electric расширяет линейку модульного оборудования для инфраструктурных проектов.",
     date: "15 апреля 2026",
-    image: "news-middle.png",
+    image: "news-middle.webp",
     summary:
       "Новые решения помогают проектировать надежные системы распределения электроэнергии для жилых, коммерческих и промышленных объектов.",
     body: [
@@ -56,7 +56,7 @@ export const newsItems: NewsItem[] = [
     title:
       "«Балтик Стайл» запускает серию мероприятий к юбилею партнерства с Санкт-Петербургским Горным университетом.",
     date: "14 апреля 2026",
-    image: "news-mining-university.png",
+    image: "news-mining-university.webp",
     summary:
       "Серия мероприятий посвящена развитию сотрудничества в области образовательной, инженерной и технологической инфраструктуры.",
     body: [

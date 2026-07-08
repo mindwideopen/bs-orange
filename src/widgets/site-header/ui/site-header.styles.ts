@@ -80,7 +80,7 @@ export const Phone = styled.a`
   }
 `;
 
-export const BurgerButton = styled.button`
+export const BurgerButton = styled.button<{ $isHidden?: boolean }>`
   display: none;
   width: 36px;
   height: 28px;
@@ -113,13 +113,19 @@ export const BurgerButton = styled.button`
   }
 
   @media (max-width: 900px) {
-    position: absolute;
+    position: fixed;
     top: 24px;
     right: 24px;
     z-index: 30;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    opacity: ${({ $isHidden }) => ($isHidden ? 0 : 1)};
+    pointer-events: ${({ $isHidden }) => ($isHidden ? "none" : "auto")};
+    transform: translateY(${({ $isHidden }) => ($isHidden ? "-10px" : "0")});
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease;
   }
 `;
 
@@ -176,10 +182,15 @@ export const MobileMenu = styled.nav<{ $isOpen: boolean }>`
   display: none;
 
   @media (max-width: 900px) {
+    position: fixed;
+    top: 72px;
+    right: 0;
+    left: 0;
+    z-index: 25;
     display: grid;
     width: 100vw;
     max-height: ${({ $isOpen }) => ($isOpen ? "420px" : "0")};
-    margin-left: calc(50% - 50vw);
+    margin-left: 0;
     overflow: hidden;
     background-color: rgb(246, 246, 246);
     box-shadow: 0 18px 28px rgb(0 0 0 / 10%);
@@ -204,6 +215,44 @@ export const MobileMenu = styled.nav<{ $isOpen: boolean }>`
     a:hover,
     a:focus-visible {
       color: #ff8100;
+    }
+  }
+`;
+
+export const BackToTopButton = styled.button<{ $isVisible: boolean }>`
+  display: none;
+
+  @media (max-width: 900px) {
+    position: fixed;
+    right: 20px;
+    bottom: 22px;
+    z-index: 30;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 86px;
+    min-height: 42px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--orange);
+    color: #ffffff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 16px;
+    line-height: 1;
+    box-shadow: 0 14px 28px rgb(0 0 0 / 18%);
+    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+    pointer-events: ${({ $isVisible }) => ($isVisible ? "auto" : "none")};
+    transform: translateY(${({ $isVisible }) => ($isVisible ? "0" : "10px")});
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease,
+      background-color 180ms ease;
+
+    &:hover,
+    &:focus-visible {
+      background: #e87500;
     }
   }
 `;

@@ -3,10 +3,14 @@
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import type { MouseEvent } from "react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { assetPath } from "@/src/shared/config/assets";
 import { navigationItems } from "../model/navigation";
-import { Brand, BurgerButton, Header, HeaderInner, MobileMenu, Nav, Phone } from "./site-header.styles";
+import { BackToTopButton, Brand, BurgerButton, Header, HeaderInner, MobileMenu, Nav, Phone } from "./site-header.styles";
+
+const mobileBreakpoint = 900;
+const scrollThreshold = 300;
+const scrollDirectionTolerance = 6;
 
 function normalizePath(path: string) {
   const withoutBasePath = path.replace(/^\/bs-orange(?=\/|$)/, "");
@@ -31,11 +35,59 @@ export function SiteHeader() {
   const pathname = usePathname();
   const currentPath = normalizePath(pathname);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isBurgerHidden, setIsBurgerHidden] = useState(false);
+  const [isBackToTopVisible, setIsBackToTopVisible] = useState(false);
+  const lastScrollY = useRef(0);
   const homeHref = assetPath("/");
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(`(max-width: ${mobileBreakpoint}px)`);
+
+    function syncScrollState() {
+      const currentScrollY = window.scrollY;
+      const isMobile = mediaQuery.matches;
+      const isPastThreshold = currentScrollY > scrollThreshold;
+      const scrollDelta = currentScrollY - lastScrollY.current;
+
+      if (!isMobile) {
+        setIsBurgerHidden(false);
+        setIsBackToTopVisible(false);
+        lastScrollY.current = currentScrollY;
+        return;
+      }
+
+      setIsBackToTopVisible(isPastThreshold);
+
+      if (!isPastThreshold) {
+        setIsBurgerHidden(false);
+      } else if (scrollDelta > scrollDirectionTolerance) {
+        setIsBurgerHidden(true);
+        setIsMenuOpen(false);
+      } else if (scrollDelta < -scrollDirectionTolerance) {
+        setIsBurgerHidden(false);
+      }
+
+      lastScrollY.current = currentScrollY;
+    }
+
+    lastScrollY.current = window.scrollY;
+    syncScrollState();
+    window.addEventListener("scroll", syncScrollState, { passive: true });
+    mediaQuery.addEventListener("change", syncScrollState);
+
+    return () => {
+      window.removeEventListener("scroll", syncScrollState);
+      mediaQuery.removeEventListener("change", syncScrollState);
+    };
+  }, []);
 
   function handleNavClick(event: MouseEvent<HTMLAnchorElement>, href: string) {
     event.preventDefault();
     window.location.assign(pageHref(href));
+  }
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   return (
@@ -59,6 +111,7 @@ export function SiteHeader() {
           aria-label={isMenuOpen ? "Закрыть меню" : "Открыть меню"}
           aria-expanded={isMenuOpen}
           aria-controls="mobile-navigation"
+          $isHidden={isBurgerHidden}
           onClick={() => setIsMenuOpen((value) => !value)}
         >
           <span />
@@ -98,6 +151,10 @@ export function SiteHeader() {
           </a>
         ))}
       </MobileMenu>
+
+      <BackToTopButton type="button" $isVisible={isBackToTopVisible} onClick={scrollToTop}>
+        Вверх
+      </BackToTopButton>
     </Header>
   );
 }

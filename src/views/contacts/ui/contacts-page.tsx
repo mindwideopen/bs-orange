@@ -22,9 +22,7 @@ const address = "г. Калининград, ул Гаражная, дом 2-4, 
 const phones = ["+7 (4012) 99 11 99", "+7 (4012) 99 11 98"];
 const mapEmbedUrl = "https://yandex.ru/map-widget/v1/?ll=20.505439%2C54.724365&z=18&pt=20.505439%2C54.724365%2Cpm2rdm";
 const mapLinks = [
-  { label: "Общественный транспорт", url: "" },
-  { label: "Карта парковок", url: "" },
-  { label: "Проложить маршрут", url: "https://yandex.ru/maps/?mode=routes&rtext=~54.724365%2C20.505439&rtt=auto" },
+   { label: "Проложить маршрут", url: "https://yandex.ru/maps/?mode=routes&rtext=~54.724365%2C20.505439&rtt=auto" },
 ];
 
 function getPhoneHref(phone: string) {

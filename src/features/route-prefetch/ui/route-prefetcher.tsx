@@ -9,12 +9,12 @@ type RoutePrefetcherProps = {
 
 function scheduleIdleTask(callback: () => void) {
   if ("requestIdleCallback" in window) {
-    const id = window.requestIdleCallback(callback, { timeout: 2500 });
+    const id = window.requestIdleCallback(callback, { timeout: 12000 });
 
     return () => window.cancelIdleCallback(id);
   }
 
-  const id = globalThis.setTimeout(callback, 450);
+  const id = globalThis.setTimeout(callback, 9000);
 
   return () => globalThis.clearTimeout(id);
 }
@@ -23,6 +23,15 @@ export function RoutePrefetcher({ routes }: RoutePrefetcherProps) {
   const router = useRouter();
 
   useEffect(() => {
+    const connection = (navigator as Navigator & { connection?: { effectiveType?: string; saveData?: boolean } }).connection;
+    const isConstrainedConnection =
+      connection?.saveData || connection?.effectiveType === "slow-2g" || connection?.effectiveType === "2g";
+    const isMobileViewport = window.matchMedia("(max-width: 900px)").matches;
+
+    if (isConstrainedConnection || isMobileViewport) {
+      return;
+    }
+
     const uniqueRoutes = Array.from(new Set(routes));
     const timeoutIds: number[] = [];
     let cancelled = false;
@@ -32,13 +41,13 @@ export function RoutePrefetcher({ routes }: RoutePrefetcherProps) {
           return;
         }
 
-        const prefetchOptions = { kind: "full", onInvalidate: prefetchRoute } as Parameters<typeof router.prefetch>[1];
+        const prefetchOptions = { kind: "full" } as Parameters<typeof router.prefetch>[1];
 
         router.prefetch(route, prefetchOptions);
       };
 
       return scheduleIdleTask(() => {
-        const timeoutId = window.setTimeout(prefetchRoute, index * 120);
+        const timeoutId = window.setTimeout(prefetchRoute, 9000 + index * 400);
         timeoutIds.push(timeoutId);
       });
     });

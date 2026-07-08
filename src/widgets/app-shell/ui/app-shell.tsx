@@ -1,5 +1,3 @@
-"use client";
-
 import { RoutePrefetcher } from "@/src/features/route-prefetch";
 import { newsItems } from "@/src/entities/news";
 import { SiteFooter } from "@/src/widgets/site-footer";

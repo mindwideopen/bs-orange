@@ -1,5 +1,3 @@
-"use client";
-
 import { EmptyMessage, EmptySection } from "./empty-page.styles";
 
 export function EmptyPage() {

@@ -7,16 +7,17 @@ import {
   ContactLink,
   ContactsSection,
   MapChip,
-  MapFrame,
   MapLink,
   MapLinks,
   MapPanel,
-  MapVisual, OfficeVisual,
+  MapVisual,
+  OfficeVisual,
   PageContent,
   SectionTitle,
 } from "./contacts-page.styles";
 import Image from "next/image";
 import officeImage from "@/src/assets/how-to-find-us.webp";
+import { LazyMapFrame } from "./lazy-map-frame";
 
 const address = "г. Калининград, ул Гаражная, дом 2-4, корпус ПОМ III,IV, офис 301";
 const phones = ["+7 (4012) 99 11 99", "+7 (4012) 99 11 98"];
@@ -78,13 +79,7 @@ export function ContactsPage() {
               )}
             </MapLinks>
             <MapVisual id="yandex-map" data-map-provider="yandex" data-coordinates="54.724365, 20.505439">
-              <MapFrame
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="strict-origin-when-cross-origin"
-                src={mapEmbedUrl}
-                title="Карта расположения офиса Балтик Стайл"
-              />
+              <LazyMapFrame src={mapEmbedUrl} title="Карта расположения офиса Балтик Стайл" />
             </MapVisual>
           </MapPanel>
         </ContactGrid>

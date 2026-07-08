@@ -165,6 +165,18 @@ export const MapFrame = styled.iframe`
   border: 0;
 `;
 
+export const MapPlaceholder = styled.div`
+  display: grid;
+  width: 100%;
+  height: clamp(344px, 38vw, 430px);
+  place-items: center;
+  padding: 24px;
+  color: #5d6661;
+  font-size: 16px;
+  line-height: 1.35;
+  text-align: center;
+`;
+
 export const OfficeVisual = styled.div`
   position: relative;
   min-height: 220px;

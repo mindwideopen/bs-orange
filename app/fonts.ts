@@ -19,12 +19,14 @@ export const inter = localFont({
     },
   ],
   display: "swap",
+  preload: false,
   variable: "--font-inter",
 });
 
 export const poiretOne = localFont({
   src: "../public/fonts/poiret-one-regular.ttf",
   display: "swap",
+  preload: false,
   variable: "--font-poiret-one",
   weight: "400",
   style: "normal",

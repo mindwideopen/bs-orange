@@ -44,6 +44,10 @@ export const SliderViewport = styled.div`
     cursor: grabbing;
     scroll-behavior: auto;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
 `;
 
 export const SliderTrack = styled.div`

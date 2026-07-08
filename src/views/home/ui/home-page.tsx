@@ -1,5 +1,3 @@
-"use client";
-
 import { ContactRequest } from "@/src/features/contact-request";
 import { AboutCompany } from "@/src/widgets/about-company";
 import { Advantages } from "@/src/widgets/advantages";

@@ -64,6 +64,10 @@ export const ProjectList = styled.div<{ $isDragging: boolean }>`
   @media (max-width: 520px) {
     grid-auto-columns: minmax(120px, 72%);
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
 `;
 
 export const ProjectItem = styled.article`

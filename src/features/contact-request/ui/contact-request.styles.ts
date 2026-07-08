@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+type DisabledProps = {
+  $disabled?: boolean;
+};
+
 export const ContactSection = styled.section`
   padding: 38px 72px 118px;
 
@@ -35,8 +39,19 @@ export const Form = styled.form`
   textarea {
     background: var(--field);
     color: #6b6b6b;
-    outline-color: var(--orange);
+    outline: 2px solid transparent;
+    outline-offset: 2px;
     padding: 18px 20px;
+  }
+
+  input:focus,
+  textarea:focus {
+    outline-color: var(--orange);
+  }
+
+  input[aria-invalid="true"],
+  textarea[aria-invalid="true"] {
+    outline-color: #d72f2f;
   }
 
   input::placeholder,
@@ -55,6 +70,14 @@ export const Form = styled.form`
     background: var(--orange);
     color: #ffffff;
     cursor: pointer;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease,
+      opacity 160ms ease;
+  }
+
+  button[aria-disabled="true"] {
+    cursor: not-allowed;
   }
 
   @media (max-width: 900px) {
@@ -66,19 +89,23 @@ export const Form = styled.form`
   }
 `;
 
-export const FileButton = styled.label`
+export const FileButton = styled.label<DisabledProps>`
   display: flex;
   align-items: center;
   min-width: 0;
   border: 0;
   border-radius: 15px;
-  background: var(--field);
-  color: #a1a1a1;
-  cursor: pointer;
+  background: var(--orange);
+  color: #ffffff;
+  cursor: ${({ $disabled }) => ($disabled ? "not-allowed" : "pointer")};
   font: inherit;
   font-size: 18px;
   outline-color: var(--orange);
   padding: 18px 20px;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    opacity 160ms ease;
 
   input {
     position: absolute;
@@ -86,5 +113,43 @@ export const FileButton = styled.label`
     height: 1px;
     opacity: 0;
     pointer-events: none;
+  }
+`;
+
+export const ConsentLabel = styled.div`
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #5f5f5f;
+  font-size: 14px;
+  line-height: 1.35;
+
+  input {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+    margin-top: 1px;
+    accent-color: var(--orange);
+  }
+
+  .privacy-policy-trigger {
+    min-height: auto;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    outline: 2px solid transparent;
+    outline-offset: 3px;
+    padding: 0;
+    text-align: left;
+    text-decoration: underline;
+    text-decoration-color: rgb(95 95 95 / 55%);
+    text-underline-offset: 3px;
+  }
+
+  .privacy-policy-trigger:focus-visible {
+    outline-color: var(--orange);
   }
 `;

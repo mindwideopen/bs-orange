@@ -1,4 +1,5 @@
 import { Copyright, Footer } from "./site-footer.styles";
+import { PrivacyPolicyModal } from "./privacy-policy-modal";
 
 export function SiteFooter() {
   return (
@@ -25,6 +26,7 @@ export function SiteFooter() {
         <span>ОГРН 1023900773555</span>
         <span>Еmail: info@balticstyle.ru</span>
       </div>
+      <PrivacyPolicyModal />
     </Footer>
   );
 }

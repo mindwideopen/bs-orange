@@ -114,6 +114,8 @@ export const StyledDetails = styled.details`
   ul {
     display: grid;
     gap: 9px;
+    list-style: disc;
+    list-style-position: outside;
     margin: 0;
     padding: 0 24px 24px 46px;
     color: #242424;
@@ -123,11 +125,13 @@ export const StyledDetails = styled.details`
   }
 
   li {
+    display: list-item;
     padding-left: 3px;
   }
 
   li::marker {
     color: var(--orange);
+    font-size: 1.1em;
   }
 
   @media (max-width: 640px) {

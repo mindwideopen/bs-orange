@@ -190,7 +190,7 @@
   }
 
   button:hover {
-    color: var(--color-orange);
+    color: var(--orange);
   }
 
   @media (max-width: 900px) {

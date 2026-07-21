@@ -23,6 +23,7 @@ export function AppShell({ children }: AppShellProps) {
       <SiteHeader />
       {children}
       <SiteFooter />
+
     </Page>
   );
 }

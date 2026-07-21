@@ -153,3 +153,57 @@ export const ConsentLabel = styled.div`
     outline-color: var(--orange);
   }
 `;
+
+export const HelperTooltip = styled.div<{ $x: number; $y: number }>`
+  position: fixed;
+  z-index: 900;
+  top: ${({ $y }) => $y}px;
+  left: ${({ $x }) => $x}px;
+  max-width: min(320px, calc(100vw - 32px));
+  border-radius: 12px;
+  background: #1b1b1b;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 1.35;
+  padding: 10px 12px;
+  pointer-events: none;
+  box-shadow: 0 12px 30px rgb(0 0 0 / 18%);
+`;
+
+export const HelperModalOverlay = styled.div`
+  position: fixed;
+  z-index: 950;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgb(0 0 0 / 34%);
+`;
+
+export const HelperModal = styled.div`
+  width: min(100%, 360px);
+  border-radius: 15px;
+  background: #ffffff;
+  color: #1b1b1b;
+  padding: 22px;
+  box-shadow: 0 18px 50px rgb(0 0 0 / 20%);
+
+  p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.45;
+  }
+
+  button {
+    width: 100%;
+    min-height: 44px;
+    margin-top: 18px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--orange);
+    color: #ffffff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+`;

@@ -3,7 +3,18 @@
 import { SectionTitle } from "@/src/shared/ui/section-title";
 import { PrivacyPolicyModal } from "@/src/widgets/site-footer";
 import { type FormEvent, type MouseEvent, useId, useMemo, useRef, useState } from "react";
-import { ContactSection, ConsentLabel, FileButton, Form } from "./contact-request.styles";
+import {
+  ContactSection,
+  ConsentLabel,
+  FileButton,
+  Form,
+  HelperModal,
+  HelperModalOverlay,
+  HelperTooltip,
+} from "./contact-request.styles";
+
+const inactiveActionHint =
+  "Заполните поля и примите политику конфиденциальности под формой обратной связи для прикрепления файла и отправки Вашего обращения";
 
 export function ContactRequest() {
   const consentId = useId();
@@ -13,6 +24,8 @@ export function ContactRequest() {
   const [message, setMessage] = useState("");
   const [consentAccepted, setConsentAccepted] = useState(false);
   const [validationAttempted, setValidationAttempted] = useState(false);
+  const [tooltipPosition, setTooltipPosition] = useState<{ x: number; y: number } | null>(null);
+  const [isHelperModalOpen, setIsHelperModalOpen] = useState(false);
 
   const isActionsEnabled = useMemo(
     () => name.trim().length > 0 && email.trim().length > 0 && message.trim().length > 0 && consentAccepted,
@@ -30,6 +43,12 @@ export function ContactRequest() {
 
     event.preventDefault();
     setValidationAttempted(true);
+    setTooltipPosition(null);
+
+    if (window.matchMedia("(hover: none), (pointer: coarse)").matches) {
+      setIsHelperModalOpen(true);
+    }
+
     if (!consentAccepted) {
       consentLinkRef.current?.focus();
     }
@@ -44,6 +63,19 @@ export function ContactRequest() {
       }
     }
   };
+
+  const showInactiveHint = (event: MouseEvent<HTMLElement>) => {
+    if (isActionsEnabled) {
+      return;
+    }
+
+    setTooltipPosition({
+      x: Math.max(16, Math.min(event.clientX + 14, window.innerWidth - 336)),
+      y: Math.max(16, Math.min(event.clientY + 14, window.innerHeight - 120)),
+    });
+  };
+
+  const hideInactiveHint = () => setTooltipPosition(null);
 
   return (
     <ContactSection id="contacts">
@@ -68,7 +100,14 @@ export function ContactRequest() {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
         />
-        <FileButton $disabled={!isActionsEnabled} aria-disabled={!isActionsEnabled} onClick={handleInactiveAction}>
+        <FileButton
+          $disabled={!isActionsEnabled}
+          aria-disabled={!isActionsEnabled}
+          onClick={handleInactiveAction}
+          onMouseEnter={showInactiveHint}
+          onMouseMove={showInactiveHint}
+          onMouseLeave={hideInactiveHint}
+        >
           <input type="file" aria-label="Прикрепите файл" disabled={!isActionsEnabled} />
           <span>Прикрепите файл</span>
         </FileButton>
@@ -80,7 +119,14 @@ export function ContactRequest() {
           value={message}
           onChange={(event) => setMessage(event.target.value)}
         />
-        <button type="submit" aria-disabled={!isActionsEnabled} onClick={handleInactiveAction}>
+        <button
+          type="submit"
+          aria-disabled={!isActionsEnabled}
+          onClick={handleInactiveAction}
+          onMouseEnter={showInactiveHint}
+          onMouseMove={showInactiveHint}
+          onMouseLeave={hideInactiveHint}
+        >
           Отправить
         </button>
         <ConsentLabel>
@@ -100,6 +146,21 @@ export function ContactRequest() {
             Политику конфиденциальности и обработки персональных данных на сайте www.balticstyle.com
           </PrivacyPolicyModal>
         </ConsentLabel>
+        {tooltipPosition ? (
+          <HelperTooltip $x={tooltipPosition.x} $y={tooltipPosition.y}>
+            {inactiveActionHint}
+          </HelperTooltip>
+        ) : null}
+        {isHelperModalOpen ? (
+          <HelperModalOverlay onClick={() => setIsHelperModalOpen(false)}>
+            <HelperModal role="dialog" aria-modal="true" onClick={(event) => event.stopPropagation()}>
+              <p>{inactiveActionHint}</p>
+              <button type="button" onClick={() => setIsHelperModalOpen(false)}>
+                Понятно
+              </button>
+            </HelperModal>
+          </HelperModalOverlay>
+        ) : null}
       </Form>
     </ContactSection>
   );

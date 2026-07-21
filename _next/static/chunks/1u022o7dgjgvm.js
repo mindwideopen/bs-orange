@@ -136,12 +136,15 @@ https://www.balticstyle.ru/privacy
 Электронная почта: info@balticstyle.ru
 Телефон: +74012 99-11-98, +74012 99-11-99
 `;e.s(["privacyPolicyText",0,t,"privacyPolicyTitle",0,"Политика конфиденциальности и обработки персональных данных"])},67107,e=>{"use strict";var t=e.i(88746);t.default.footer.withConfig({displayName:"site-footer.styles__Footer",componentId:"sc-1b168edd-0"})`
+    width: 100vw;
+    margin-left: calc(50% - 50vw); 
   display: grid;
   grid-template-columns: 1.65fr 0.6fr 1.22fr;
   gap: 48px;
   margin-top: auto;
   padding: 14px 68px 10px 180px;
   font-size: 12px;
+    background-color: rgb(246, 246, 246);
 
   div {
     display: grid;

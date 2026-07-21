@@ -64,8 +64,7 @@ export const NewsCard = styled.a`
 
   img {
     width: 100%;
-    height: 203px;
-    border: 0.3px solid #a5a0a0;
+    height: 203px;    
     object-fit: cover;
     transition:
       transform 180ms ease,
@@ -89,7 +88,7 @@ export const NewsCard = styled.a`
     line-height: 1.25;
   }
 
-  &[data-featured="true"] h2,
+  
   &:hover h2,
   &:focus-visible h2 {
     color: #ff8100;

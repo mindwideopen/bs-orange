@@ -5,7 +5,32 @@ import { AppShell } from "@/src/widgets/app-shell";
 import "./globals.css";
 
 const siteUrl = "https://mindwideopen.github.io/bs-orange";
-const companyName = "Балтик Стайл";
+// const companyName = fetch(
+//     "https://admin.baltikstyle.ru/items/site_settings?fields=company_name"
+// )
+//     .then((response) => response.json())
+//     .then((result) => {
+//       return (result.data.company_name);
+//     })
+
+type SiteSettingsResponse = {
+  data: {
+    company_name: string;
+  };
+};
+
+async function getCompanyName(): Promise<string> {
+  const response = await fetch(
+      "https://admin.baltikstyle.ru/items/site_settings?fields=company_name"
+  );
+
+  const result: SiteSettingsResponse = await response.json();
+
+  return result.data.company_name;
+}
+
+const companyName = await getCompanyName();
+
 const siteDescription =
   "Системная интеграция, поставка и ввод в эксплуатацию сложного компьютерного оборудования и слаботочных сетей.";
 
@@ -75,3 +100,66 @@ export default function RootLayout({
     </html>
   );
 }
+// import type { Metadata } from "next";
+// import { inter, poiretOne } from "./fonts";
+// import { StyledComponentsRegistry } from "./registry";
+// import { AppShell } from "@/src/widgets/app-shell";
+// import "./globals.css";
+//
+// const siteUrl = "https://mindwideopen.github.io/bs-orange";
+//
+// const siteDescription =
+//     "Системная интеграция, поставка и ввод в эксплуатацию сложного компьютерного оборудования и слаботочных сетей.";
+//
+// async function getCompanyName(): Promise<string> {
+//   const response = await fetch(
+//       "https://admin.baltikstyle.ru/items/site_settings?fields=company_name"
+//   );
+//
+//   if (!response.ok) {
+//     return "Балтик Стайл";
+//   }
+//
+//   const result = await response.json();
+//
+//   return result.data.company_name;
+// }
+//
+// export async function generateMetadata(): Promise<Metadata> {
+//   const companyName = await getCompanyName();
+//
+//   return {
+//     metadataBase: new URL(siteUrl),
+//
+//     title: {
+//       default: `${companyName} - сетевые решения`,
+//       template: `%s | ${companyName}`,
+//     },
+//
+//     description: siteDescription,
+//
+//     alternates: {
+//       canonical: "/",
+//     },
+//
+//     openGraph: {
+//       type: "website",
+//       locale: "ru_RU",
+//       url: siteUrl,
+//       siteName: companyName,
+//       title: `${companyName} - сетевые решения`,
+//       description: siteDescription,
+//     },
+//
+//     twitter: {
+//       card: "summary",
+//       title: `${companyName} - сетевые решения`,
+//       description: siteDescription,
+//     },
+//
+//     robots: {
+//       index: true,
+//       follow: true,
+//     },
+//   };
+// }

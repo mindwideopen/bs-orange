@@ -7,10 +7,12 @@ import { useEffect, useRef, useState } from "react";
 import { assetPath } from "@/src/shared/config/assets";
 import { navigationItems } from "../model/navigation";
 import { BackToTopButton, Brand, BurgerButton, Header, HeaderInner, MobileMenu, Nav, Phone } from "./site-header.styles";
+import {getCompanyName} from "@/src/features/api/headerTestApi/headerTestApi";
 
 const mobileBreakpoint = 900;
 const scrollThreshold = 300;
 const scrollDirectionTolerance = 6;
+const companyName = getCompanyName();
 
 function normalizePath(path: string) {
   const withoutBasePath = path.replace(/^\/bs-orange(?=\/|$)/, "");
@@ -96,7 +98,7 @@ export function SiteHeader() {
         <Brand href={homeHref} aria-label="Балтик Стайл">
           <Image src={assetPath("/figma/logo.svg")} alt="" width={62} height={75} priority />
           <span>
-            <strong>Балтик Стайл</strong>
+            <strong>{companyName}</strong>
             <small>сетевые решения</small>
           </span>
         </Brand>

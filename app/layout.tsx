@@ -29,7 +29,7 @@ async function getCompanyName(): Promise<string> {
   return result.data.company_name;
 }
 
-const companyName = await getCompanyName();
+ const companyName = await getCompanyName();
 
 const siteDescription =
   "Системная интеграция, поставка и ввод в эксплуатацию сложного компьютерного оборудования и слаботочных сетей.";

@@ -15,7 +15,7 @@ const scrollDirectionTolerance = 6;
 const companyName = getCompanyName();
 
 function normalizePath(path: string) {
-  const withoutBasePath = path.replace(/^\/bs-orange(?=\/|$)/, "");
+const withoutBasePath = path;
   const withoutTrailingSlash = withoutBasePath.replace(/\/$/, "");
 
   return withoutTrailingSlash || "/";

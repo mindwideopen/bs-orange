@@ -3,7 +3,7 @@ import { newsItems } from "@/src/entities/news";
 
 export const dynamic = "force-static";
 
-const siteUrl = "https://mindwideopen.github.io/bs-orange";
+const siteUrl = "https://baltikstyle.ru";
 const staticRoutes = ["", "/about", "/services", "/partners", "/news", "/contacts"];
 
 export default function sitemap(): MetadataRoute.Sitemap {

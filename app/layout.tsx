@@ -5,13 +5,6 @@ import { AppShell } from "@/src/widgets/app-shell";
 import "./globals.css";
 
 const siteUrl = "https://mindwideopen.github.io/bs-orange";
-// const companyName = fetch(
-//     "https://admin.baltikstyle.ru/items/site_settings?fields=company_name"
-// )
-//     .then((response) => response.json())
-//     .then((result) => {
-//       return (result.data.company_name);
-//     })
 
 type SiteSettingsResponse = {
   data: {
@@ -31,6 +24,8 @@ async function getCompanyName(): Promise<string> {
 
  const companyName = await getCompanyName();
 
+const siteUrl = "https://baltikstyle.ru";
+const companyName = "Балтик Стайл";
 const siteDescription =
   "Системная интеграция, поставка и ввод в эксплуатацию сложного компьютерного оборудования и слаботочных сетей.";
 

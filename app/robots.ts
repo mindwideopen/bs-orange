@@ -2,8 +2,7 @@ import type { MetadataRoute } from "next";
 
 export const dynamic = "force-static";
 
-const siteUrl = "https://mindwideopen.github.io/bs-orange";
-
+const siteUrl = "https://baltikstyle.ru";
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {

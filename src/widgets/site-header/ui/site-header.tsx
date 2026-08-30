@@ -98,7 +98,7 @@ export function SiteHeader() {
         <Brand href={homeHref} aria-label="Балтик Стайл">
           <Image src={assetPath("/figma/logo.svg")} alt="" width={62} height={75} priority />
           <span>
-            <strong>{companyName}</strong>
+            <strong>{'qweqweqw'}</strong>
             <small>сетевые решения</small>
           </span>
         </Brand>

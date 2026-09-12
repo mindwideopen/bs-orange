@@ -39,7 +39,7 @@ export const SliderShell = styled.div`
 
 export const SliderViewport = styled.div`
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: auto;
   scroll-behavior: smooth;
   scrollbar-width: none;
   cursor: grab;
@@ -59,10 +59,9 @@ export const SliderViewport = styled.div`
 `;
 
 export const SliderTrack = styled.div`
-  display: flex;
-    
+  display: flex;    
   gap: 32px;
-  padding: 0 0 8px;
+    padding: 8px 0 8px;
 `;
 
 export const NewsCard = styled.a`
@@ -107,7 +106,7 @@ export const NewsCard = styled.a`
   &:hover img,
   &:focus-visible img {
     box-shadow: 0 16px 30px rgb(0 0 0 / 10%);
-    transform: translateY(-2px);
+    transform: translateY(-8px);
   }
 
   &:focus-visible {

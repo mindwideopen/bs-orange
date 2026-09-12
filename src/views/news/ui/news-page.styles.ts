@@ -174,7 +174,7 @@ export const ArticleSection = styled.section`
 export const ArticleHeader = styled.header`
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 418px);
-  gap: 28px;
+  //gap: 28px;
   align-items: start;
 
   h1 {
@@ -218,7 +218,7 @@ export const ArticleMeta = styled.time`
 
 export const ArticleBody = styled.div`
   width: min(100%, 923px);
-  margin-top: 68px;
+  margin-top: 30px;
   font-size: 18px;
   font-weight: 400;
   line-height: 1.22;

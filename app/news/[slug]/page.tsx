@@ -1,19 +1,26 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getNewsItem, newsItems } from "@/src/entities/news";
+import { getNewsItem } from "@/src/entities/news";
 import { NewsArticlePage as NewsArticleView } from "@/src/views/news";
+import {getNews, getNewsBySlug} from "@/src/entities/news/api/getNews";
+import type { DirectusNewsItem } from "@/src/entities/news/api/getNews";
+
 
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return newsItems.map((item) => ({
+
+export async function generateStaticParams() {
+
+  const items = await getNews();
+
+  return items.map((item) => ({
     slug: item.slug,
   }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const item = getNewsItem(slug);
+  const item  = await getNewsBySlug(slug);
 
   if (!item) {
     return {
@@ -30,19 +37,20 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     },
     openGraph: {
       title: item.title,
-      description: item.summary,
+      description: item.summary??undefined,
       type: "article",
     },
   };
 }
 
-export default async function NewsArticlePage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const item = getNewsItem(slug);
+export default async function NewsArticlePage({  params}: {params: Promise<{ slug: string }>;
+}) {
+  const {slug} = await params;
+  const item = await getNewsBySlug(slug);
 
   if (!item) {
     notFound();
   }
 
-  return <NewsArticleView item={item} />;
+  return <NewsArticleView item={item}/>;
 }

@@ -26,3 +26,19 @@ export async function getNews(): Promise<DirectusNewsItem[]> {
 
     return result.data;
 }
+
+export async function getNewsBySlug(
+    slug: string
+): Promise<DirectusNewsItem | null> {
+    const response = await fetch(
+        `http://localhost:8055/items/news?filter[slug][_eq]=${slug}&filter[status][_eq]=published`
+    );
+
+    if (!response.ok) {
+        throw new Error("Не удалось получить новость из Directus");
+    }
+
+    const result: DirectusNewsResponse = await response.json();
+
+    return result.data[0] ?? null;
+}

@@ -144,7 +144,7 @@ export function NewsPage({newsItems}: NewsPageProps) {
                           dragDistance.current = 0;
                         }}
                     >
-                      <Container direction={'column'} align={"flex-start"} gap={0}>
+                      <Container direction={'column'} align={"center"} gap={0}>
 
 
                         {item.cover && (
@@ -158,6 +158,7 @@ export function NewsPage({newsItems}: NewsPageProps) {
                             />
                         )}
                         <h2>{item.title}</h2>
+                        <p>{item.summary}</p>
                         <time dateTime={item.published_at ?? ""} >
                           {formatNewsDate(item.published_at)}
                         </time>

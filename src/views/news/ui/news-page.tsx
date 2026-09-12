@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { newsItems } from "@/src/entities/news";
 import { assetPath } from "@/src/shared/config/assets";
+import type { DirectusNewsItem } from "@/src/entities/news/api/getNews";
 import {
   NewsCard,
   NewsSection,
@@ -16,14 +17,20 @@ import {
   SliderTrack,
   SliderViewport,
 } from "./news-page.styles";
+import {Container} from "@/src/shared/ui/container/Container";
+
 
 const autoplayDelay = 4200;
 
-function getNewsImage(file: string) {
-  return assetPath(`/figma/${file}`);
+function getNewsImage(fileId: string) {
+  return `http://localhost:8055/assets/${fileId}`;
 }
 
-export function NewsPage() {
+type NewsPageProps = {
+  newsItems: DirectusNewsItem[];
+};
+
+export function NewsPage({newsItems}: NewsPageProps) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const dragStartX = useRef(0);
   const dragStartScroll = useRef(0);
@@ -58,6 +65,18 @@ export function NewsPage() {
 
     return () => window.clearInterval(timer);
   }, [activeIndex, isDragging]);
+
+  function formatNewsDate(date: string | null) {
+    if (!date) {
+      return "";
+    }
+
+    return new Intl.DateTimeFormat("ru-RU", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(new Date(date));
+  }
 
   return (
     <NewsSection>
@@ -110,24 +129,44 @@ export function NewsPage() {
           >
             <SliderTrack>
               {newsItems.map((item, index) => (
-                <NewsCard
-                  as={Link}
-                  data-featured={index === 0}
-                  data-news-card
-                  href={`/news/selected-news-item?news=${item.slug}`}
-                  key={item.slug}
-                  onClick={(event) => {
-                    if (dragDistance.current > 6) {
-                      event.preventDefault();
-                    }
 
-                    dragDistance.current = 0;
-                  }}
-                >
-                  <Image src={getNewsImage(item.image)} alt={item.title} width={293} height={203} priority={index === 0} />
-                  <h2>{item.title}</h2>
-                  <time dateTime="2026-04-16">{item.date}</time>
-                </NewsCard>
+                    <NewsCard
+                        as={Link}
+                        data-featured={index === 0}
+                        data-news-card
+                        href={`/news/${item.slug}`}
+                        key={item.slug}
+                        onClick={(event) => {
+                          if (dragDistance.current > 6) {
+                            event.preventDefault();
+                          }
+
+                          dragDistance.current = 0;
+                        }}
+                    >
+                      <Container direction={'column'} align={"flex-start"} gap={0}>
+
+
+                        {item.cover && (
+
+                            <Image
+                                src={getNewsImage(item.cover)}
+                                alt={item.cover_alt ?? item.title}
+                                width={293}
+                                height={203}
+                                priority={index === 0}
+                            />
+                        )}
+                        <h2>{item.title}</h2>
+                        <time dateTime={item.published_at ?? ""} >
+                          {formatNewsDate(item.published_at)}
+                        </time>
+                      </Container>
+
+                    </NewsCard>
+
+
+
               ))}
             </SliderTrack>
           </SliderViewport>

@@ -27,6 +27,14 @@ export const SectionTitle = styled.h1`
 
 export const SliderShell = styled.div`
   position: relative;
+
+  @media (max-width: 900px) {
+    padding-inline: 50px;
+  }
+
+  @media (max-width: 640px) {
+    padding-inline: 44px;
+  }
 `;
 
 export const SliderViewport = styled.div`
@@ -52,7 +60,8 @@ export const SliderViewport = styled.div`
 
 export const SliderTrack = styled.div`
   display: flex;
-  gap: 22px;
+    
+  gap: 32px;
   padding: 0 0 8px;
 `;
 
@@ -72,7 +81,6 @@ export const NewsCard = styled.a`
   }
 
   h2 {
-    min-height: 45px;
     margin: 28px 0 0;
     color: inherit;
     font-size: 12px;
@@ -82,10 +90,12 @@ export const NewsCard = styled.a`
 
   time {
     display: block;
-    margin-top: 18px;
+    margin-top: 20px;
     color: #969494;
     font-size: 12px;
     line-height: 1.25;
+      
+     
   }
 
   
@@ -106,19 +116,26 @@ export const NewsCard = styled.a`
   }
 
   @media (max-width: 640px) {
-    flex-basis: min(82vw, 293px);
+    flex-basis: min(100%, 293px);
   }
 `;
 
 export const SliderControls = styled.div`
+  position: absolute;
+  inset: 0 -54px;
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 24px;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+
+  @media (max-width: 900px) {
+    inset-inline: 0;
+  }
 `;
 
 export const SliderButton = styled.button`
   display: grid;
+  flex-shrink: 0;
   width: 38px;
   height: 38px;
   place-items: center;
@@ -127,6 +144,7 @@ export const SliderButton = styled.button`
   background: #ffffff;
   color: #000000;
   cursor: pointer;
+  pointer-events: auto;
   font-size: 24px;
   line-height: 1;
   transition:

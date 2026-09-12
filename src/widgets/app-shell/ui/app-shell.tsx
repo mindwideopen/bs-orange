@@ -13,7 +13,6 @@ const backgroundPrefetchRoutes = [
   "/",
   ...navigationItems.map((item) => item.href),
   ...newsItems.map((item) => `/news/${item.slug}`),
-  ...newsItems.map((item) => `/news/selected-news-item?news=${item.slug}`),
 ];
 
 export function AppShell({ children }: AppShellProps) {

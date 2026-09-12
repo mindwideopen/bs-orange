@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { getNewsItem, newsItems } from "@/src/entities/news";
 import { NewsArticlePage as NewsArticleView } from "@/src/views/news";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return newsItems.map((item) => ({
     slug: item.slug,

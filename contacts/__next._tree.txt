@@ -1,3 +1,3 @@
 :HL["/bs-orange/_next/static/chunks/29rbrsb4ij7vk.css","style"]
 :HC["/",""]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"contacts","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"6W9DwpAC_CJWSfCsK7dXg"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"contacts","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"EkFJCaxqavld0CHZiA0FS"}

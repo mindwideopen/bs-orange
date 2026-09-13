@@ -12,10 +12,9 @@ import {
     PageContent,
 } from "./news-page.styles";
 
-function getNewsImage(cover: string|null ) {
-    return `http://localhost:8055/assets/${cover}`;
+function getNewsImage(cover: string | null) {
+    return `https://admin.baltikstyle.ru/assets/${cover}`;
 }
-
 // function renderParagraph(text: string, links?: NewsItem["links"]) {
 //   if (!links?.length) {
 //     return text;

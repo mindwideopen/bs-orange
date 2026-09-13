@@ -4,27 +4,10 @@ import { StyledComponentsRegistry } from "./registry";
 import { AppShell } from "@/src/widgets/app-shell";
 import "./globals.css";
 
-const siteUrl = "https://mindwideopen.github.io/bs-orange";
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  "https://baltikstyle.ru";
 
-type SiteSettingsResponse = {
-  data: {
-    company_name: string;
-  };
-};
-
-async function getCompanyName(): Promise<string> {
-  const response = await fetch(
-      "https://admin.baltikstyle.ru/items/site_settings?fields=company_name"
-  );
-
-  const result: SiteSettingsResponse = await response.json();
-
-  return result.data.company_name;
-}
-
- const companyName = await getCompanyName();
-
-const siteUrl = "https://baltikstyle.ru";
 const companyName = "Балтик Стайл";
 const siteDescription =
   "Системная интеграция, поставка и ввод в эксплуатацию сложного компьютерного оборудования и слаботочных сетей.";

@@ -1,4 +1,4 @@
-(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,3991,e=>{"use strict";var t=e.i(43476),a=e.i(71645),i=e.i(97053);i.default.section.withConfig({displayName:"contacts-page.styles__ContactsSection",componentId:"sc-8afbc2a5-0"})`
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,3991,e=>{"use strict";var t=e.i(69759),a=e.i(63844),i=e.i(88746);i.default.section.withConfig({displayName:"contacts-page.styles__ContactsSection",componentId:"sc-8afbc2a5-0"})`
   padding: 43px 72px 86px;
 
   @media (max-width: 900px) {

@@ -1,3 +1,0 @@
-:HL["/bs-orange/_next/static/chunks/29rbrsb4ij7vk.css","style"]
-:HC["/",""]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"news","param":null,"prefetchHints":0,"slots":{"children":{"name":"slug","param":{"type":"d","key":"mining-university-events","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"QypNRhnbFrI9cNivOkX2o"}

@@ -62,8 +62,32 @@ export function ContactRequest() {
     consentAccepted;
   const warning = "⚠️";
 
-  const onSubmit = (data: ContactFormValues) => {
-    console.log(data);
+  const onSubmit = async (data: ContactFormValues) => {
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: data.name,
+          phone: data.phone,
+          email: data.email,
+          message: data.message,
+          consent: data.consent,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Ошибка отправки формы");
+      }
+
+      const result = await response.json();
+
+      console.log("Форма отправлена:", result);
+    } catch (error) {
+      console.error("Ошибка отправки формы:", error);
+    }
   };
 
   const onInvalid: SubmitErrorHandler<ContactFormValues> = (formErrors) => {

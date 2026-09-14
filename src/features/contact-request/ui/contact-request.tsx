@@ -1,8 +1,9 @@
 "use client";
 
+import { type SubmitErrorHandler, useForm } from "react-hook-form";
 import { SectionTitle } from "@/src/shared/ui/section-title";
 import { PrivacyPolicyModal } from "@/src/widgets/site-footer";
-import { type FormEvent, type MouseEvent, useId, useMemo, useRef, useState } from "react";
+import { type MouseEvent, useId, useRef, useState } from "react";
 import {
   ContactSection,
   ConsentLabel,
@@ -16,25 +17,60 @@ import {
 const inactiveActionHint =
   "Заполните поля и примите политику конфиденциальности под формой обратной связи для прикрепления файла и отправки Вашего обращения";
 
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+type ContactFormValues = {
+  name: string;
+  phone: string;
+  email: string;
+  message: string;
+  file: FileList;
+  consent: boolean;
+};
+
 export function ContactRequest() {
   const consentId = useId();
   const consentLinkRef = useRef<HTMLButtonElement>(null);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [consentAccepted, setConsentAccepted] = useState(false);
-  const [validationAttempted, setValidationAttempted] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState<{ x: number; y: number } | null>(null);
   const [isHelperModalOpen, setIsHelperModalOpen] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, submitCount },
+  } = useForm<ContactFormValues>({
+    shouldFocusError: false,
+    defaultValues: {
+      name: "",
+      phone: "",
+      email: "",
+      message: "",
+      consent: false,
+    },
+  });
+  const [name, email, message, consentAccepted] = watch([
+    "name",
+    "email",
+    "message",
+    "consent",
+  ]);
 
-  const isActionsEnabled = useMemo(
-    () => name.trim().length > 0 && email.trim().length > 0 && message.trim().length > 0 && consentAccepted,
-    [consentAccepted, email, message, name],
-  );
-  const showNameError = validationAttempted && name.trim().length === 0;
-  const showEmailError = validationAttempted && email.trim().length === 0;
-  const showMessageError = validationAttempted && message.trim().length === 0;
+  const isActionsEnabled =
+    name.trim().length > 0 &&
+    emailPattern.test(email.trim()) &&
+    message.trim().length > 0 &&
+    consentAccepted;
   const warning = "⚠️";
+
+  const onSubmit = (data: ContactFormValues) => {
+    console.log(data);
+  };
+
+  const onInvalid: SubmitErrorHandler<ContactFormValues> = (formErrors) => {
+    if (formErrors.consent) {
+      consentLinkRef.current?.focus();
+    }
+  };
 
   const handleInactiveAction = (event: MouseEvent<HTMLElement>) => {
     if (isActionsEnabled) {
@@ -42,7 +78,7 @@ export function ContactRequest() {
     }
 
     event.preventDefault();
-    setValidationAttempted(true);
+    void handleSubmit(onSubmit, onInvalid)();
     setTooltipPosition(null);
 
     if (window.matchMedia("(hover: none), (pointer: coarse)").matches) {
@@ -51,16 +87,6 @@ export function ContactRequest() {
 
     if (!consentAccepted) {
       consentLinkRef.current?.focus();
-    }
-  };
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    if (!isActionsEnabled) {
-      event.preventDefault();
-      setValidationAttempted(true);
-      if (!consentAccepted) {
-        consentLinkRef.current?.focus();
-      }
     }
   };
 
@@ -81,24 +107,32 @@ export function ContactRequest() {
     <ContactSection id="contacts">
       <SectionTitle>Свяжитесь с нами удобным способом</SectionTitle>
       <p>Заполните форму и мы перезвоним</p>
-      <Form noValidate onSubmit={handleSubmit}>
+      <Form noValidate onSubmit={handleSubmit(onSubmit, onInvalid)}>
         <input
+          {...register("name", {
+            required: true,
+            validate: (value) => value.trim().length > 0,
+          })}
           aria-label="Имя"
-          aria-invalid={showNameError}
+          aria-invalid={Boolean(errors.name)}
           placeholder="Имя"
           required
-          value={name}
-          onChange={(event) => setName(event.target.value)}
         />
-        <input aria-label="Номер телефона" placeholder="Номер телефона" />
         <input
+          {...register("phone")}
+          aria-label="Номер телефона"
+          placeholder="Номер телефона"
+        />
+        <input
+          {...register("email", {
+            required: true,
+            validate: (value) => emailPattern.test(value.trim()),
+          })}
           aria-label="E-mail"
-          aria-invalid={showEmailError}
+          aria-invalid={Boolean(errors.email)}
           placeholder="E-mail"
           required
           type="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
         />
         <FileButton
           $disabled={!isActionsEnabled}
@@ -108,16 +142,23 @@ export function ContactRequest() {
           onMouseMove={showInactiveHint}
           onMouseLeave={hideInactiveHint}
         >
-          <input type="file" aria-label="Прикрепите файл" disabled={!isActionsEnabled} />
+          <input
+            {...register("file")}
+            type="file"
+            aria-label="Прикрепите файл"
+            disabled={!isActionsEnabled}
+          />
           <span>Прикрепите файл</span>
         </FileButton>
         <textarea
+          {...register("message", {
+            required: true,
+            validate: (value) => value.trim().length > 0,
+          })}
           aria-label="Ваш текст"
-          aria-invalid={showMessageError}
+          aria-invalid={Boolean(errors.message)}
           placeholder="Ваш текст"
           required
-          value={message}
-          onChange={(event) => setMessage(event.target.value)}
         />
         <button
           type="submit"
@@ -130,14 +171,12 @@ export function ContactRequest() {
           Отправить
         </button>
         <ConsentLabel>
-          {validationAttempted ? <span>{warning}</span>:""}
+          {submitCount > 0 && errors.consent ? <span>{warning}</span> : ""}
           <input
+            {...register("consent", { required: true })}
             id={consentId}
             aria-label="Принять политику конфиденциальности и обработки персональных данных"
             type="checkbox"
-            checked={consentAccepted}
-            onChange={(event) => setConsentAccepted(event.target.checked)}
-
           />
           <span>
             {"Я принимаю "}

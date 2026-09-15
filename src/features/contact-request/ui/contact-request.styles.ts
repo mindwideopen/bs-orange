@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
-type DisabledProps = {
-  $disabled?: boolean;
-};
+
 
 export const ContactSection = styled.section`
   padding: 38px 72px 118px;
@@ -60,7 +58,6 @@ export const Form = styled.form`
   }
 
   textarea {
-    grid-column: 1 / 4;
     min-height: 59px;
     resize: vertical;
   }
@@ -82,14 +79,56 @@ export const Form = styled.form`
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
-
-    textarea {
-      grid-column: auto;
-    }
   }
 `;
 
-export const FileButton = styled.label<DisabledProps>`
+export const Field = styled.div<{ $wide?: boolean }>`
+  grid-column: ${({ $wide }) => ($wide ? "1 / 4" : "auto")};
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+
+  input,
+  textarea {
+    width: 100%;
+    box-sizing: border-box;
+    flex: 1;
+  }
+
+  @media (max-width: 900px) {
+    grid-column: auto;
+  }
+`;
+
+export const FieldError = styled.p`
+  grid-column: 1 / -1;
+  margin: 6px 0 0;
+  color: #d72f2f;
+  font-size: 12px;
+  line-height: 1.35;
+`;
+
+export const SubmissionMessage = styled.p<{ $error: boolean }>`
+  grid-column: 1 / -1;
+  margin: 0;
+  border-radius: 15px;
+  background: var(--field);
+  color: ${({ $error }) => ($error ? "#d72f2f" : "#256b3b")};
+  padding: 18px 20px;
+  font-size: 16px;
+  line-height: 1.4;
+
+  &:empty {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    padding: 0;
+    clip-path: inset(50%);
+  }
+`;
+
+export const FileButton = styled.label`
   display: flex;
   align-items: center;
   min-width: 0;
@@ -97,7 +136,7 @@ export const FileButton = styled.label<DisabledProps>`
   border-radius: 15px;
   background: var(--orange);
   color: #ffffff;
-  cursor: ${({ $disabled }) => ($disabled ? "not-allowed" : "pointer")};
+  cursor: pointer;
   font: inherit;
   font-size: 18px;
   outline-color: var(--orange);
@@ -154,56 +193,3 @@ export const ConsentLabel = styled.div`
   }
 `;
 
-export const HelperTooltip = styled.div<{ $x: number; $y: number }>`
-  position: fixed;
-  z-index: 900;
-  top: ${({ $y }) => $y}px;
-  left: ${({ $x }) => $x}px;
-  max-width: min(320px, calc(100vw - 32px));
-  border-radius: 12px;
-  background: #1b1b1b;
-  color: #ffffff;
-  font-size: 14px;
-  line-height: 1.35;
-  padding: 10px 12px;
-  pointer-events: none;
-  box-shadow: 0 12px 30px rgb(0 0 0 / 18%);
-`;
-
-export const HelperModalOverlay = styled.div`
-  position: fixed;
-  z-index: 950;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  background: rgb(0 0 0 / 34%);
-`;
-
-export const HelperModal = styled.div`
-  width: min(100%, 360px);
-  border-radius: 15px;
-  background: #ffffff;
-  color: #1b1b1b;
-  padding: 22px;
-  box-shadow: 0 18px 50px rgb(0 0 0 / 20%);
-
-  p {
-    margin: 0;
-    font-size: 16px;
-    line-height: 1.45;
-  }
-
-  button {
-    width: 100%;
-    min-height: 44px;
-    margin-top: 18px;
-    border: 0;
-    border-radius: 12px;
-    background: var(--orange);
-    color: #ffffff;
-    cursor: pointer;
-    font: inherit;
-    font-weight: 700;
-  }
-`;

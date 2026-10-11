@@ -19,7 +19,7 @@ import {Container} from "@/src/shared/ui/container/Container";
 
 
 function getNewsImage(fileId: string) {
-  return `https://admin.baltikstyle.ru/assets/${fileId}`;
+  return `https://admin.balticstyle.ru/assets/${fileId}`;
 }
 
 type NewsPageProps = {

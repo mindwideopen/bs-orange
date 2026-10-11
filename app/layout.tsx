@@ -6,7 +6,7 @@ import "./globals.css";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
-  "https://baltikstyle.ru";
+  "https://balticstyle.ru";
 
 const companyName = "Балтик Стайл";
 const siteDescription =
@@ -91,7 +91,7 @@ export default function RootLayout({
 //
 // async function getCompanyName(): Promise<string> {
 //   const response = await fetch(
-//       "https://admin.baltikstyle.ru/items/site_settings?fields=company_name"
+//       "https://admin.balticstyle.ru/items/site_settings?fields=company_name"
 //   );
 //
 //   if (!response.ok) {

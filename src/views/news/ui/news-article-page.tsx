@@ -13,7 +13,7 @@ import {
 } from "./news-page.styles";
 
 function getNewsImage(cover: string | null) {
-    return `https://admin.baltikstyle.ru/assets/${cover}`;
+    return `https://admin.balticstyle.ru/assets/${cover}`;
 }
 // function renderParagraph(text: string, links?: NewsItem["links"]) {
 //   if (!links?.length) {

@@ -15,8 +15,8 @@ export type DirectusNewsResponse = {
 
 export async function getNews(): Promise<DirectusNewsItem[]> {
     const response = await fetch(
-        "http://localhost:8055/items/news?filter[status][_eq]=published&sort=-published_at",
-    );
+        "http://localhost:8055/items/news?filter[status][_eq]=published&sort=-published_at"
+ );
 
     if (!response.ok) {
         throw new Error("Не удалось получить новости из Directus");
@@ -40,5 +40,9 @@ export async function getNewsBySlug(
 
     const result: DirectusNewsResponse = await response.json();
 
+console.log("BUILD NEWS DATA: ",JSON.stringify( result.data))
+
     return result.data[0] ?? null;
+
+
 }
